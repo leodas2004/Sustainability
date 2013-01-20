@@ -13,8 +13,9 @@ import org.hibernate.SessionFactory;
  *
  * @author S405364
  */
-public class UsersDAO {
 
+public class UsersDAO {
+    int testing;
     ArrayList<Users> userList = null;
     SessionFactory sessionFactory = null;
     Session session = null;
