@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
+<hibernate-reverse-engineering>
+  <schema-selection match-catalog="gdp"/>
+  <table-filter match-name="revenue"/>
+  <table-filter match-name="users"/>
+  <table-filter match-name="transportation"/>
+  <table-filter match-name="diversionsaving"/>
+  <table-filter match-name="productionsaving"/>
+  <table-filter match-name="category"/>
+</hibernate-reverse-engineering>

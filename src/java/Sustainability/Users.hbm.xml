@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 18, 2013 4:54:10 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="Sustainability.Users" table="users" catalog="gdp">
+        <id name="username" type="string">
+            <column name="Username" length="20" />
+            <generator class="assigned" />
+        </id>
+        <property name="firstname" type="string">
+            <column name="Firstname" length="45" not-null="true" />
+        </property>
+        <property name="lastname" type="string">
+            <column name="Lastname" length="45" not-null="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="Password" length="45" />
+        </property>
+        <property name="role" type="string">
+            <column name="Role" length="45" />
+        </property>
+        <property name="status" type="java.lang.Integer">
+            <column name="Status" />
+        </property>
+        <set name="productionsavings" inverse="true">
+            <key>
+                <column name="Username" length="20" />
+            </key>
+            <one-to-many class="Sustainability.Productionsaving" />
+        </set>
+        <set name="diversionsavings" inverse="true">
+            <key>
+                <column name="Username" length="20" />
+            </key>
+            <one-to-many class="Sustainability.Diversionsaving" />
+        </set>
+        <set name="revenues" inverse="true">
+            <key>
+                <column name="Username" length="20" />
+            </key>
+            <one-to-many class="Sustainability.Revenue" />
+        </set>
+    </class>
+</hibernate-mapping>

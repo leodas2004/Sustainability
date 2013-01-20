@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 18, 2013 4:54:10 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="Sustainability.Category" table="category" catalog="gdp">
+        <id name="categoryName" type="string">
+            <column name="CategoryName" length="25" />
+            <generator class="assigned" />
+        </id>
+        <property name="quantity" type="java.lang.Double">
+            <column name="Quantity" precision="22" scale="0" />
+        </property>
+        <property name="status" type="java.lang.Integer">
+            <column name="Status" />
+        </property>
+        <property name="unit" type="string">
+            <column name="Unit" length="5" />
+        </property>
+        <set name="diversionsavings" inverse="true">
+            <key>
+                <column name="CategoryName" length="25" not-null="true" />
+            </key>
+            <one-to-many class="Sustainability.Diversionsaving" />
+        </set>
+        <set name="revenues" inverse="true">
+            <key>
+                <column name="CategoryName" length="25" not-null="true" />
+            </key>
+            <one-to-many class="Sustainability.Revenue" />
+        </set>
+        <set name="productionsavings" inverse="true">
+            <key>
+                <column name="CategoryName" length="25" not-null="true" />
+            </key>
+            <one-to-many class="Sustainability.Productionsaving" />
+        </set>
+    </class>
+</hibernate-mapping>
