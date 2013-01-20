@@ -19,6 +19,7 @@ public class Test {
      */
     public static void main(String[] args) {
 // TODO code application logic here
+        //Testing again
         UsersDAO uDAO = new UsersDAO();
         Users user = uDAO.verifyCredentials("alok.shrestha", "12345");
         if (user != null) {
