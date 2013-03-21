@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 1, 2013 7:21:28 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="Sustainability.Transportation" table="transportation" catalog="gdp">
+        <id name="lot" type="java.lang.Long">
+            <column name="Lot" />
+            <generator class="native" />
+        </id>
+        
+        <property name="cost" type="java.lang.Double">
+            <column name="Cost" precision="22" scale="0" />
+        </property>
+<!--         <property name="lot" type="java.lang.Long">
+            <column name="Lot" precision="22" scale="0" />
+        </property>-->
+        <property name="date" type="timestamp">
+            <column name="Date"/>
+        </property>
+<!--        <set name="revenues" inverse="true">
+            <key>
+                <column name="Date" length="19" not-null="true" />
+            </key>
+            <one-to-many class="Sustainability.Revenue" />
+        </set>-->
+    </class>
+</hibernate-mapping>

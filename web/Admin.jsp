@@ -1,0 +1,66 @@
+<%@page import="DAO.CategoryDAO"%>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link href='http://fonts.googleapis.com/css?family=Oswald:400,300' rel='stylesheet' type='text/css' />
+		<link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css' />
+		<link href="default.css" rel="stylesheet" type="text/css" media="all" />
+	</head>
+	<body>
+		<div id="menu1">
+		<ul>
+			<li ><a href="Savings.jsp" accesskey="1" title="">Savings</a></li>
+			<li><a href="Revenue.jsp" accesskey="2" title="">Revenue</a></li>
+			<li><a href="Reports.jsp" accesskey="3" title="">Reports</a></li>
+			<li class="current_page_item"><a href="Admin.jsp" accesskey="4" title="">Administrator</a></li>
+			<li><a href="Logout.jsp" accesskey="5" title="">Logout</a></li>
+		</ul>
+		</div>
+		<div id="context">
+			<div id="legend">
+				<fieldset>
+					<legend>Rates</legend>
+					Landfill Rate
+					<input type="text" name="landfillRate" value=""/>&nbsp;&nbsp;&nbsp;
+					<input type="button" value="Ok" class="button-style"/>&nbsp;&nbsp;&nbsp;
+					<input type="reset" value="Cancel" class="button-style"/>
+				</fieldset>
+				<br/>
+				<fieldset>
+					<legend>Edit Category</legend>
+                                        <select name="category">
+					<%
+                                                CategoryDAO category = new CategoryDAO();
+                                                for (int i = 0; i < category.getCategoryList().size(); i++) {
+                                            %>
+
+                                            <option><%
+                                                out.println(category.getCategoryList().get(i).getCategoryName());
+                                                %></option>
+                                                <%
+                                                    }
+                                                %>
+					</select>&nbsp;&nbsp;&nbsp;
+                                        
+                                        <input type="button" value="Add" class="button-style"/>&nbsp;&nbsp;&nbsp;
+                                        <input type="button" value="Enable" class="button-style"/>&nbsp;&nbsp;&nbsp;
+                                        <input type="button" value="Rename" class="button-style"/>
+				</fieldset>
+				<br/>
+				<fieldset>
+					<legend>User Management</legend>
+								&nbsp;&nbsp;&nbsp;
+                                        <input type="button" value="Create New User" class="button-style" onclick="Window.open('WEB-INF/greenness/Newuser.html')"/>&nbsp;&nbsp;&nbsp;
+                                        <input type="button" value="Edit User" class="button-style"/>
+				</fieldset>
+				<br/>
+			</div>
+		</div>	
+	</body>
+</html>

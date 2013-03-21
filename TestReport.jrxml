@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b8ce0c23-37aa-4cc2-93ce-8840277491aa">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\s405364.NWMSU\\Dropbox\\Fall2012\\Graduate Directed Project\\CodeSpring2013\\Alok\\SustainabilityMR\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select CategoryName, sum(Quantity) from Diversionsaving group by CategoryName]]>
+	</queryString>
+	<field name="CategoryName" class="java.lang.String"/>
+	<field name="sum(Quantity)" class="java.lang.Double"/>
+	<variable name="sum(Quantity)_1" class="java.lang.Double" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{sum(Quantity)}]]></variableExpression>
+	</variable>
+	<filterExpression><![CDATA[]]></filterExpression>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="8f17a637-572e-49b9-a00e-883fe488d437" x="106" y="41" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Hello]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField evaluationTime="Column">
+				<reportElement uuid="7ab0273c-f331-431e-bbaf-fdc7c5e38c2f" x="264" y="41" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{sum(Quantity)_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d989c82a-e2a4-4949-a51a-5c70d0b4209b" x="49" y="41" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{CategoryName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<subreport>
+				<reportElement uuid="680f84f8-7b1b-446e-8e5d-6a50b3645744" x="320" y="0" width="200" height="100"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "TestReport_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

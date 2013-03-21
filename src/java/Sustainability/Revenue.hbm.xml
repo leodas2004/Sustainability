@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 18, 2013 4:54:10 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="Sustainability.Revenue" table="revenue" catalog="gdp">
+        <composite-id>
+            <key-many-to-one name="category" class="Sustainability.Category" column="CategoryName"/>
+            <key-many-to-one name="transportation" class="Sustainability.Transportation" column="Lot"/>
+<!--            <key-property name="category" type="Sustainability.Category">
+                <column name="CategoryName" length="25" />
+            </key-property>-->
+<!--            <key-property name="transportation" type="Sustainability.Transportation">
+                <column name="transportation" length="19" />
+            </key-property>-->
+        </composite-id>
+        <many-to-one name="users" class="Sustainability.Users" fetch="select">
+            <column name="Username" length="20" />
+        </many-to-one>
+<!--        <many-to-one name="category" class="Sustainability.Category" update="false" insert="false" fetch="select">
+            <column name="CategoryName" length="25" not-null="true" />
+        </many-to-one>-->
+<!--        <many-to-one name="transportation" class="Sustainability.Transportation" update="false" insert="false" fetch="select">
+            <column name="Lot" length="25" not-null="true" />
+        </many-to-one>-->
+        <property name="quantity" type="java.lang.Double">
+            <column name="Quantity" precision="22" scale="0"/>
+        </property>
+        <property name="sellingdate" type="timestamp">
+            <column name="Date" precision="22" scale="0" />
+        </property>
+        <property name="marketRate" type="java.lang.Double">
+            <column name="MarketRate" precision="12" scale="0" />
+        </property>
+        <property name="unit" type="string">
+            <column name="Unit" length="5" />
+        </property>
+        <property name="amount" type="java.lang.Double">
+            <column name="Amount" precision="22" scale="0" />
+        </property>
+        <property name="comment" type="string">
+            <column name="Comment" length="90" />
+        </property>
+    </class>
+</hibernate-mapping>
