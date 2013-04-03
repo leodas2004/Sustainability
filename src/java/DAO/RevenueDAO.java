@@ -34,6 +34,7 @@ public class RevenueDAO {
     Session session = null;
     Revenue revenue;
     ArrayList<Revenue> revenueList;
+    org.hibernate.Transaction tx=null;
 
     /**
      * Inserts single instance of revenue into database.
@@ -44,8 +45,8 @@ public class RevenueDAO {
         Long recentLot;
         try {
             sessionFactory = HibernateUtil.getSessionFactory();
-            session = sessionFactory.openSession();
-            org.hibernate.Transaction tx = session.beginTransaction();
+            session = sessionFactory.getCurrentSession();
+            //org.hibernate.Transaction tx = session.getTransaction();
 //            Transportation trans = new Transportation();
 //            trans.setDate(new Date());
 //            trans.setCost(60.00);
@@ -64,7 +65,7 @@ public class RevenueDAO {
             System.out.println(_revenue.getCategory().getCategoryName());
             System.out.println(_revenue.getTransportation().getLot());
             session.save(_revenue);
-            tx.commit();
+            //tx.commit();
             System.out.println("Revenue recorded successfully");
         } catch (Exception e) {
             //e.printStackTrace();
@@ -83,16 +84,24 @@ public class RevenueDAO {
         sessionFactory = HibernateUtil.getSessionFactory();
         session = sessionFactory.getCurrentSession();
         org.hibernate.Transaction tx = session.beginTransaction();
+        System.out.println("1."+tx.isActive());
         tx.begin();
         Transportation trans = new Transportation();
         trans.setDate(new Date());
         TransportationDAO tDAO = new TransportationDAO();
         tDAO.insertTransportationCost(trans);
         for (Revenue r : _revenues) {
+              System.out.println("2."+tx.isActive());
             System.out.println("helloman:"+r.getCategory().getCategoryName());
             insertRevenueRecord(r);
         }
-        //tx.commit();
+        try{
+            System.out.println(tx.isActive());
+        tx.commit();
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
     }
     
     public ArrayList<Revenue> getRevenues(Date startDate, Date endDate) {
@@ -125,91 +134,91 @@ public class RevenueDAO {
     * @param endDate End date of the data to be extracted
     * @param filepath Path of the excel file where the file will be stored
     */
-    public void exportToExcel(Date startDate, Date endDate, String filepath) {
-        HSSFWorkbook workbook = new HSSFWorkbook();
-        HSSFSheet sheet = workbook.createSheet("Sample sheet");
-        CreationHelper createHelper = workbook.getCreationHelper();
-        RevenueDAO dDAO = new RevenueDAO();
-        ArrayList<Revenue> revenueList = dDAO.getRevenues(startDate, endDate);
-        int rownum = 0;
-        sheet.setColumnWidth(0, 6000);
-        sheet.setColumnWidth(1, 5000);
-        Row headerrow = sheet.createRow(rownum++);
-        Cell headerCategory = headerrow.createCell(0);
-        Cell headerDate = headerrow.createCell(1);
-        Cell headerQuantity = headerrow.createCell(2);
-        Cell headerUser = headerrow.createCell(3);
-        Cell headerRate = headerrow.createCell(4);
-        Cell headerUnit = headerrow.createCell(5);
-        Cell headerRevenueAmount = headerrow.createCell(6);
-        Cell headerComment = headerrow.createCell(7);
-        Cell headerLot = headerrow.createCell(8);
-        
-        headerCategory.setCellValue("Category");
-        headerDate.setCellValue("Date");
-        headerQuantity.setCellValue("Quantity");
-        headerUser.setCellValue("User");
-        headerRate.setCellValue("Landfill Rate");
-        headerUnit.setCellValue("Unit");
-        headerRevenueAmount.setCellValue("Amount");
-        headerRevenueAmount.setCellValue("Comment");
-        headerRevenueAmount.setCellValue(("Lot"));
-        //headerLandFillDate.setCellValue("Landfill Rate Date");
-       // headerSavingAmount.setCellValue("Saving Amount");
-        for (Revenue revenue : revenueList) {
-            Row row = sheet.createRow(rownum++);
-            for (int cellnum = 0; cellnum < 8; cellnum++) {
-                Cell cell = row.createCell(cellnum);
-
-                if (cellnum == 0) {
-                    System.out.println((String) revenue.getCategory().getCategoryName());
-                    cell.setCellValue((String) revenue.getCategory().getCategoryName());
-                }
-                if (cellnum == 1) {
-                    CellStyle cellStyle = workbook.createCellStyle();
-                    cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("m/d/yy"));
-                    System.out.println((Date) revenue.getSellingdate());
-                    cell.setCellStyle(cellStyle);
-                   //System.out.println("Test:"+saving.getDiversiondate());
-                    cell.setCellValue((Date) revenue.getSellingdate());
-                }
-                if (cellnum == 2) {
-                    System.out.println((Double) revenue.getQuantity());
-                    cell.setCellValue((Double) revenue.getQuantity());
-                }
-                if (cellnum == 3) {
-                    System.out.println((String) revenue.getUsers().getUsername());
-                    cell.setCellValue((String) revenue.getUsers().getUsername());
-                }
-                if (cellnum == 4) {
-                    System.out.println("Check"+(Double) revenue.getMarketRate());
-         
-                    cell.setCellValue((Double) revenue.getMarketRate());
-                }
-                if (cellnum == 5) {
-                    System.out.println((String) revenue.getUnit());
-                    cell.setCellValue((String) revenue.getUnit());
-                }
-                if (cellnum == 7) {
-                    cell.setCellValue((String)revenue.getComment());
-                }
-                if (cellnum == 6) {
-                    cell.setCellValue(revenue.getAmount());
-                }
-            }
-        }
-
-        try {
-            FileOutputStream out =
-                    new FileOutputStream(new File(filepath));
-            workbook.write(out);
-            out.close();
-            System.out.println("Excel written successfully..");
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void exportToExcel(Date startDate, Date endDate, String filepath) {
+//        HSSFWorkbook workbook = new HSSFWorkbook();
+//        HSSFSheet sheet = workbook.createSheet("Sample sheet");
+//        CreationHelper createHelper = workbook.getCreationHelper();
+//        RevenueDAO dDAO = new RevenueDAO();
+//        ArrayList<Revenue> revenueList = dDAO.getRevenues(startDate, endDate);
+//        int rownum = 0;
+//        sheet.setColumnWidth(0, 6000);
+//        sheet.setColumnWidth(1, 5000);
+//        Row headerrow = sheet.createRow(rownum++);
+//        Cell headerCategory = headerrow.createCell(0);
+//        Cell headerDate = headerrow.createCell(1);
+//        Cell headerQuantity = headerrow.createCell(2);
+//        Cell headerUser = headerrow.createCell(3);
+//        Cell headerRate = headerrow.createCell(4);
+//        Cell headerUnit = headerrow.createCell(5);
+//        Cell headerRevenueAmount = headerrow.createCell(6);
+//        Cell headerComment = headerrow.createCell(7);
+//        Cell headerLot = headerrow.createCell(8);
+//        
+//        headerCategory.setCellValue("Category");
+//        headerDate.setCellValue("Date");
+//        headerQuantity.setCellValue("Quantity");
+//        headerUser.setCellValue("User");
+//        headerRate.setCellValue("Landfill Rate");
+//        headerUnit.setCellValue("Unit");
+//        headerRevenueAmount.setCellValue("Amount");
+//        headerRevenueAmount.setCellValue("Comment");
+//        headerRevenueAmount.setCellValue(("Lot"));
+//        //headerLandFillDate.setCellValue("Landfill Rate Date");
+//       // headerSavingAmount.setCellValue("Saving Amount");
+//        for (Revenue revenue : revenueList) {
+//            Row row = sheet.createRow(rownum++);
+//            for (int cellnum = 0; cellnum < 8; cellnum++) {
+//                Cell cell = row.createCell(cellnum);
+//
+//                if (cellnum == 0) {
+//                    System.out.println((String) revenue.getCategory().getCategoryName());
+//                    cell.setCellValue((String) revenue.getCategory().getCategoryName());
+//                }
+//                if (cellnum == 1) {
+//                    CellStyle cellStyle = workbook.createCellStyle();
+//                    cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("m/d/yy"));
+//                    System.out.println((Date) revenue.getSellingdate());
+//                    cell.setCellStyle(cellStyle);
+//                   //System.out.println("Test:"+saving.getDiversiondate());
+//                    cell.setCellValue((Date) revenue.getSellingdate());
+//                }
+//                if (cellnum == 2) {
+//                    System.out.println((Double) revenue.getQuantity());
+//                    cell.setCellValue((Double) revenue.getQuantity());
+//                }
+//                if (cellnum == 3) {
+//                    System.out.println((String) revenue.getUsers().getUsername());
+//                    cell.setCellValue((String) revenue.getUsers().getUsername());
+//                }
+//                if (cellnum == 4) {
+//                    System.out.println("Check"+(Double) revenue.getMarketRate());
+//         
+//                    cell.setCellValue((Double) revenue.getMarketRate());
+//                }
+//                if (cellnum == 5) {
+//                    System.out.println((String) revenue.getUnit());
+//                    cell.setCellValue((String) revenue.getUnit());
+//                }
+//                if (cellnum == 7) {
+//                    cell.setCellValue((String)revenue.getComment());
+//                }
+//                if (cellnum == 6) {
+//                    cell.setCellValue(revenue.getAmount());
+//                }
+//            }
+//        }
+//
+//        try {
+//            FileOutputStream out =
+//                    new FileOutputStream(new File(filepath));
+//            workbook.write(out);
+//            out.close();
+//            System.out.println("Excel written successfully..");
+//
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
